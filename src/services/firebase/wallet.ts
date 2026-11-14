@@ -20,12 +20,30 @@ export const firebaseWallet: WalletService = {
     if (!user) throw new ServiceError("no_account", "Please sign in to add funds.");
 
     const customerRef = doc(db, "customers", user.uid);
-    const snap = await getDoc(customerRef);
-    if (!snap.exists()) throw new ServiceError("no_account", "Customer profile not found.");
+    let snap = await getDoc(customerRef);
+    
+    // Auto-create customer document if user signed in without initial document
+    if (!snap.exists()) {
+      const initialDoc = {
+        balanceMinor: 0,
+        name: user.displayName || "Customer",
+        enrollment: { status: "none" },
+        limitPerTxMinor: 25000,
+        paymentOrder: ["wallet"],
+        sources: [
+          { id: "src_default", label: "Primary Account", kind: "bank", last4: "4242", primary: true }
+        ],
+        transactions: [],
+        notifications: { payments: true, security: true, marketing: false },
+      };
+      await setDoc(customerRef, initialDoc);
+      snap = await getDoc(customerRef);
+    }
 
-    const data = snap.data();
-    const source = (data.sources || []).find((s: FundingSource) => s.id === sourceId);
-    const label = source ? source.label : "Linked source";
+    const data = snap.data() || {};
+    const sources: FundingSource[] = data.sources || [];
+    const source = sources.find((s) => s.id === sourceId) || sources[0];
+    const label = source ? source.label : "Linked Account";
 
     const newTx: Transaction = {
       id: newId("tx"),
@@ -49,9 +67,7 @@ export const firebaseWallet: WalletService = {
 
     const customerRef = doc(db, "customers", user.uid);
     const snap = await getDoc(customerRef);
-    if (!snap.exists()) return;
-
-    const currentSources: FundingSource[] = snap.data().sources || [];
+    const currentSources: FundingSource[] = snap.exists() ? (snap.data().sources || []) : [];
     const isFirst = currentSources.length === 0;
     const newSrc: FundingSource = {
       id: newId("src"),
@@ -61,10 +77,23 @@ export const firebaseWallet: WalletService = {
       primary: isFirst,
     };
 
-    await updateDoc(customerRef, {
-      sources: arrayUnion(newSrc),
-      paymentOrder: arrayUnion(newSrc.id),
-    });
+    if (!snap.exists()) {
+      await setDoc(customerRef, {
+        balanceMinor: 0,
+        name: user.displayName || "Customer",
+        enrollment: { status: "none" },
+        limitPerTxMinor: 25000,
+        paymentOrder: [newSrc.id],
+        sources: [newSrc],
+        transactions: [],
+        notifications: { payments: true, security: true, marketing: false },
+      });
+    } else {
+      await updateDoc(customerRef, {
+        sources: arrayUnion(newSrc),
+        paymentOrder: arrayUnion(newSrc.id),
+      });
+    }
   },
 
   async removeSource(id) {
