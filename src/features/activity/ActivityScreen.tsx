@@ -9,7 +9,7 @@ import { ConfirmDialog, Sheet } from "@/components/ui/Overlay";
 import { useSession } from "@/app/session";
 import { formatCompact, formatDateTime, formatMoney, formatRelativeDay } from "@/domain/money";
 import { ServiceError, type Role, type Transaction } from "@/domain/types";
-import { services } from "@/services/mock";
+import { services } from "@/services/firebase";
 import type { Market } from "@/config/markets";
 
 export function TransactionRow({ tx, market, onSelect }: { tx: Transaction; market: Market; onSelect?: (tx: Transaction) => void }) {

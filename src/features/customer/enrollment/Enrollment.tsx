@@ -12,7 +12,7 @@ import { ConfirmDialog } from "@/components/ui/Overlay";
 import { consentVersion, DEMO_MODE } from "@/config/markets";
 import { formatDateTime } from "@/domain/money";
 import { ServiceError } from "@/domain/types";
-import { services } from "@/services/mock";
+import { services } from "@/services/firebase";
 import { consumeScenario } from "@/services/mock/scenario";
 import { useStepEffect } from "@/app/useStepEffect";
 import { enrollReducer, initialEnrollState, progressSteps, type EnrollStep } from "./enrollmentMachine";

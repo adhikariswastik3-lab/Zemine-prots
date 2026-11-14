@@ -8,7 +8,7 @@ import { Banner } from "@/components/ui/Feedback";
 import Icon from "@/components/ui/Icon";
 import { demoCode, demoPassword } from "@/config/markets";
 import { ServiceError, type Role } from "@/domain/types";
-import { services } from "@/services/mock";
+import { services } from "@/services/firebase";
 import { DEMO_MODE } from "@/config/markets";
 import { authReducer, initialAuthState, isEmail, isPhone } from "./authMachine";
 

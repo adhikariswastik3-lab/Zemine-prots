@@ -5,7 +5,7 @@ import { Link } from "@/app/router";
 import { cue } from "@/app/feedback";
 import { toast } from "@/components/feedback/Toast";
 import { Toggle } from "@/components/ui/Field";
-import { services } from "@/services/mock";
+import { services } from "@/services/firebase";
 import { initialsOf, useSession } from "@/app/session";
 import Header from "@/components/layout/Header";
 import { EmptyState } from "@/components/ui/Feedback";

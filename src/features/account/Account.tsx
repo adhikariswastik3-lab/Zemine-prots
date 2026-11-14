@@ -12,7 +12,7 @@ import Icon, { type IconName } from "@/components/ui/Icon";
 import { ConfirmDialog, Sheet } from "@/components/ui/Overlay";
 import { formatMoney, major } from "@/domain/money";
 import type { Role } from "@/domain/types";
-import { services } from "@/services/mock";
+import { services } from "@/services/firebase";
 import { updateDb } from "@/services/mock/db";
 
 type SheetName = "prefs" | "limits" | "notifications" | "help" | "store" | "team" | "device" | null;

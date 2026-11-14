@@ -13,7 +13,7 @@ import Icon, { type IconName } from "@/components/ui/Icon";
 import { DEMO_MODE } from "@/config/markets";
 import { digitsToMinor, formatDateTime, formatMoney } from "@/domain/money";
 import { ServiceError } from "@/domain/types";
-import { services } from "@/services/mock";
+import { services } from "@/services/firebase";
 import { consumeScenario, getScenario, speedFactor } from "@/services/mock/scenario";
 import { checkoutReducer, initCheckout, initialCheckoutState, type FailureName } from "./checkoutMachine";
 

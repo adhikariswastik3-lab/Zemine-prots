@@ -8,7 +8,7 @@ import { useCountUp } from "@/app/useCountUp";
 import { cue } from "@/app/feedback";
 import { allMethods, MAX_METHODS, RANKS, resolveOrder, type PayMethod } from "@/domain/payment";
 import { formatMoney } from "@/domain/money";
-import { services } from "@/services/mock";
+import { services } from "@/services/firebase";
 
 const mark = { wallet: "ZM", bank: "BK", card: "CD" } as const;
 

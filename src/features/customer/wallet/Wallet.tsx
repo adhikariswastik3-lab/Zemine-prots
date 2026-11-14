@@ -10,7 +10,7 @@ import Icon from "@/components/ui/Icon";
 import { ConfirmDialog, Sheet } from "@/components/ui/Overlay";
 import { formatMoney, major } from "@/domain/money";
 import { ServiceError, type FundingSource } from "@/domain/types";
-import { services } from "@/services/mock";
+import { services } from "@/services/firebase";
 import { PaymentOrderSheet } from "@/features/customer/payment/PaymentMethods";
 import { resolveOrder, RANKS } from "@/domain/payment";
 
