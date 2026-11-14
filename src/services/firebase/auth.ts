@@ -9,6 +9,7 @@ import { auth, db } from "./config";
 import type { AuthService, SignUpInput } from "../contracts";
 import type { Role, User } from "@/domain/types";
 import { ServiceError } from "@/domain/types";
+import { updateDb } from "../mock/db";
 
 // In-memory challenge store for 2-step code verification simulation
 const challenges = new Map<string, { role: Role; contact: string; password?: string; input?: SignUpInput }>();
@@ -110,18 +111,31 @@ export const firebaseAuth: AuthService = {
       throw new ServiceError("unknown", "No active session found.");
     }
 
+    let user: User;
     const userDoc = await getDoc(doc(db, "users", currentUser.uid));
     if (userDoc.exists()) {
-      return userDoc.data() as User;
+      user = userDoc.data() as User;
+    } else {
+      user = {
+        id: currentUser.uid,
+        role: challenge.role,
+        name: currentUser.displayName || "User",
+        contact: challenge.contact,
+        marketId: "pilot-usd",
+      };
     }
 
-    return {
-      id: currentUser.uid,
-      role: challenge.role,
-      name: currentUser.displayName || "User",
-      contact: challenge.contact,
-      marketId: "pilot-usd",
-    };
+    // Sync user state into reactive app session store so route guards let the user in
+    updateDb((dbState) => {
+      dbState.user = user;
+      if (user.role === "customer") {
+        dbState.customer.name = user.name;
+      } else {
+        dbState.merchant.businessName = user.businessName || user.name;
+      }
+    });
+
+    return user;
   },
 
   async resendCode() {
@@ -134,5 +148,8 @@ export const firebaseAuth: AuthService = {
 
   signOut() {
     fbSignOut(auth).catch(() => {});
+    updateDb((dbState) => {
+      dbState.user = null;
+    });
   },
 };
