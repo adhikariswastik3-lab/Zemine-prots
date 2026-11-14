@@ -1,0 +1,36 @@
+@theme {
+  --color-ink: #202035;
+  --color-cream: #f5edda;
+  --color-page: #d9d2bd;
+  --color-paper: #fff9eb;
+  --color-orange: #ef5b38;
+  --color-yellow: #ffcc33;
+  --color-green: #bdd9c6;
+  --color-positive: #1f6b4a;
+  --color-positive-soft: #8ee6ae;
+  --color-danger: #9f321d;
+  --color-muted: #4a4860;
+  --color-muted-2: #5c5a70;
+  --color-live: #35a268;
+  --color-placeholder: #8f8878;
+
+  --font-mono: "DM Mono", ui-monospace, monospace;
+  --font-display: "Righteous", system-ui, sans-serif;
+
+  --shadow-hard: 4px 4px 0 var(--color-ink);
+  --shadow-hard-sm: 3px 3px 0 var(--color-ink);
+
+  --radius-card: 16px;
+  --radius-control: 10px;
+
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+  --dur-slow: 320ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --text-micro: 0.75rem;
+  --text-small: 0.8125rem;
+  --text-body: 0.875rem;
+}
